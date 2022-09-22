@@ -6,10 +6,10 @@ const userController = require("../Controllers/userController");
 //create new compte
 router.post("/signup", authController.signup);
 
-//login by adress and psw
+//login by address and psw
 router.post("/login", authController.login);
 
-//get profil by current user
+//get profile by current user
 router.get(
   "/me",
   authController.protect,
@@ -17,7 +17,7 @@ router.get(
   userController.getUserById
 );
 
-// Liste of all clients for admin
+// List of all clients for admin
 router.get(
   "/AllClients",
   authController.protect,
@@ -34,14 +34,14 @@ router.get(
 );
 
 //update profile by current user
-router.patch("/:id", authController.protect, userController.updateClient);
+router.patch("/:id", authController.protect, userController.updateProfile);
 
 //delete user for admin
 router.delete(
   "/:idUser",
   authController.protect,
   authController.restrictTo("admin"),
-  userController.deleteUser
+  userController.deleteOneUser
 );
 
 module.exports = router;

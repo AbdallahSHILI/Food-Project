@@ -4,9 +4,9 @@ const validator = require("validator");
 
 // User Schema
 const userSchema = new mongoose.Schema({
-  name: {
+  FirstLastName: {
     type: String,
-    required: [true, "please enter your name "],
+    required: [true, "please enter your First and LastName "],
   },
   Email: {
     type: String,
@@ -16,37 +16,43 @@ const userSchema = new mongoose.Schema({
     required: [true, "please enter your email ! "],
     validate: [validator.isEmail, "Please fill a valid email !! "],
   },
-  password: {
+  Password: {
     type: String,
     required: [true, "please enter your password "],
     minlength: 8,
     select: false,
   },
-  passwordConfirm: {
+  ConfirmPassword: {
     type: String,
     required: [true, "please confirm your password !! "],
     validate: {
       // This only works on CREATE and SAVE!!!
       validator: function (el) {
-        return el === this.MotDePasse;
+        return el === this.Password;
       },
       message: "Passwords are not the same !!",
     },
   },
-  phoneNumber: {
+  PhoneNumber: {
     type: Number,
     required: [true, "please enter your phone number !! "],
     minlength: 8,
   },
-  role: {
+  Role: {
     type: String,
     default: "client",
     enum: ["admin", "client"],
   },
-  RequestSend: [
+  ReqPreFood: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: "prepareFood",
+      ref: "PrepareFood",
+    },
+  ],
+  ReqResFood: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Food",
     },
   ],
   DateCreation: {
@@ -63,5 +69,4 @@ userSchema.methods.validatePassword = async function (
   return await bcrypt.compare(condidatePassword, userPassword);
 };
 
-const User = mongoose.model("User", userSchema);
-module.exports = User;
+module.exports = mongoose.models.User || mongoose.model("User", userSchema);

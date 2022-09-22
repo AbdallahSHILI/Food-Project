@@ -1,36 +1,30 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
 
-//prepareFood Schema
-const prepareFoodSchema = new mongoose.Schema({
+//Schema of Review an employee
+const SpecificFoodSchema = mongoose.Schema({
   Name: {
     type: String,
-    required: [true, "please enter your name !!"],
+    required: true,
     select: true,
   },
-  PhoneNumber: {
-    type: Number,
-    required: [true, "please enter your phone number !!"],
-    select: true,
-    minlength: 8,
-  },
-  Description: {
-    type: String,
-    required: [true, "please enter the description of food !!"],
-    select: true,
-    minlength: 2,
-  },
-  UserID: {
+
+  ClientID: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
+    select: true,
   },
-  DateCreation: {
-    type: Date,
-    default: Date.now(),
+  HwMny: {
+    type: Number,
+    default: 1,
   },
   Done: {
     type: Boolean,
     default: false,
+    select: true,
+  },
+  DateCreation: {
+    type: Date,
+    default: Date.now(),
     select: true,
   },
 });
@@ -54,21 +48,20 @@ const FoodSchema = new mongoose.Schema({
     select: true,
     minlength: 200,
   },
-  ClientID: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-  },
   DateCreation: {
     type: Date,
     default: Date.now(),
   },
-  Reaquest: {
+  Request: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
   },
+  SpecFood: [SpecificFoodSchema],
+  Exist: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const prepareFood = mongoose.model("prepareFood", prepareFoodSchema);
 const Food = mongoose.model("Food", FoodSchema);
 module.exports = Food;
-module.exports = prepareFood;

@@ -1,4 +1,3 @@
-const factoryOne = require("./factoryOne");
 const User = require("../models/UserModel");
 
 //get current user using the getUserByID
@@ -13,7 +12,7 @@ exports.findAllClients = async (req, res, next) => {
     // Test if there is clients
     const doc = await User.find({ role: "client" });
     return res.status(200).json({
-      status: "Succes",
+      status: "Success",
       result: doc.length,
       data: {
         doc,
@@ -21,7 +20,7 @@ exports.findAllClients = async (req, res, next) => {
     });
   } catch (err) {
     return res.status(404).json({
-      status: "Echec",
+      status: "Failed",
       data: err,
     });
   }
@@ -34,7 +33,7 @@ exports.getUserById = async (req, res, next) => {
     const user = await User.findById(req.params.id);
     if (user) {
       return res.status(200).json({
-        status: "Succes",
+        status: "Success",
         data: {
           user,
         },
@@ -45,7 +44,7 @@ exports.getUserById = async (req, res, next) => {
     });
   } catch (err) {
     return res.status(404).json({
-      status: "Echec",
+      status: "Failed",
       data: err,
     });
   }
@@ -59,10 +58,10 @@ exports.updateProfile = async (req, res, next) => {
         new: true,
         runValidators: true,
       });
-      // Test if document was update Successfuly
+      // Test if document was update Successsfuly
       if (doc) {
         return res.status(200).json({
-          status: "Succes",
+          status: "Success",
           data: {
             doc,
           },
@@ -77,7 +76,7 @@ exports.updateProfile = async (req, res, next) => {
     });
   } catch (err) {
     return res.status(404).json({
-      status: "Echec",
+      status: "Failed",
       data: err,
     });
   }
@@ -92,12 +91,12 @@ exports.deleteOneUser = async (req, res, next) => {
         status: "No user with that id !!",
       });
     return res.status(200).json({
-      status: "Succes",
+      status: "Success",
       data: null,
     });
   } catch (err) {
     return res.status(404).json({
-      status: "Echec",
+      status: "Failed",
       data: err,
     });
   }

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const foodController = require("../controllers/foodController");
+const foodController = require("../Controllers/foodController");
+const authController = require("../Controllers/authController");
 
 // add new food
 router.post(
@@ -15,28 +16,76 @@ router.post(
   "/PrepareFood",
   authController.protect,
   authController.restrictTo("client"),
-  foodController.prepareFood
+  foodController.PrepareFood
 );
 
-// Liste of all foods for admin
+// List of all prepared foods for admin
+router.get(
+  "/AllPreFoods",
+  authController.protect,
+  authController.restrictTo("admin"),
+  foodController.findAllPreparedFoods
+);
+
+// List of all reserved foods for admin
+router.get(
+  "/AllReservedFoods",
+  authController.protect,
+  authController.restrictTo("admin"),
+  foodController.findAllFoodsReserved
+);
+
+//cancel request prepare food by current client
+router.delete(
+  "/CancelRequestPre/:idFood",
+  authController.protect,
+  authController.restrictTo("client"),
+  foodController.cancelRequestPreFood
+);
+
+//Reserve one food by current client
+router.patch(
+  "/FoodReserve/:idFood",
+  authController.protect,
+  authController.restrictTo("client"),
+  foodController.ReserveOneFood
+);
+
+// List of all reserved foods for current client
+router.get(
+  "/MyReservedFoods",
+  authController.protect,
+  authController.restrictTo("client"),
+  foodController.findMyReservedFoods
+);
+
+// List of all done prepared foods for current client
+router.get(
+  "/MyPreparedFoods",
+  authController.protect,
+  authController.restrictTo("client"),
+  foodController.findMyPreparedFoods
+);
+
+// List of all foods for admin
 router.get(
   "/AllFoods",
   authController.protect,
   authController.restrictTo("admin"),
-  foodController.findAll
+  foodController.findAllFoods
 );
 
-// Liste of all request prepare foods for admin
+// List of all request prepare food for admin
 router.get(
   "/AllRequestFoods",
   authController.protect,
   authController.restrictTo("admin"),
-  foodController.findAllrequestPrepareFood
+  foodController.findAllRequestPrepareFood
 );
 
-// Liste of all  request foods that already prepared for admin
+// List of all  request foods that already prepared for admin
 router.get(
-  "/AllrequestPreFoods",
+  "/AllRequestPreFoods",
   authController.protect,
   authController.restrictTo("admin"),
   foodController.getAllDoneFoods
@@ -50,36 +99,12 @@ router.delete(
   foodController.deleteOneFood
 );
 
-//delete one reqest by admin
+//delete one request by admin
 router.delete(
   "/DeleteRequest/:idFood",
   authController.protect,
   authController.restrictTo("admin"),
   foodController.deleteOneRequestFood
-);
-
-// Liste of all foods for admin
-router.get(
-  "/AllPreFoods",
-  authController.protect,
-  authController.restrictTo("admin"),
-  foodController.findAllPreraredFoods
-);
-
-//Reserve one food by cuurent client
-router.patch(
-  "/FoodReserve/:idfood",
-  authController.protect,
-  authController.restrictTo("client"),
-  foodController.ReserveOneFood
-);
-
-// Liste of all reserved foods for admin
-router.get(
-  "/AllReservedFoods",
-  authController.protect,
-  authController.restrictTo("admin"),
-  foodController.findAllFoodsReseved
 );
 
 //Update one food by admin
@@ -90,17 +115,9 @@ router.patch(
   foodController.UpdateOneFood
 );
 
-// Liste of all prepared foods for admin
-router.get(
-  "/AllPreparedFoods",
-  authController.protect,
-  authController.restrictTo("admin"),
-  foodController.findAllFoodsPrepared
-);
-
 //Change food condition by admin
 router.patch(
-  "/FoodReserve/:idfood",
+  "/FoodReserve/:idFood",
   authController.protect,
   authController.restrictTo("admin"),
   foodController.changeFoodCondition
