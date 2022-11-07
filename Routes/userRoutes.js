@@ -4,14 +4,14 @@ const authController = require("../Controllers/authController");
 const userController = require("../Controllers/userController");
 
 //create new compte
-router.post("/signup", authController.signup);
+router.post("/Signup", authController.signup);
 
 //login by address and psw
-router.post("/login", authController.login);
+router.post("/Login", authController.login);
 
 //get profile by current user
 router.get(
-  "/me",
+  "/Me",
   authController.protect,
   userController.getMe,
   userController.getUserById

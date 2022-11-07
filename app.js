@@ -4,6 +4,7 @@ const express = require("express");
 
 const userRouter = require("./Routes/userRoutes");
 const foodRouter = require("./Routes/foodRoutes");
+const preFoodRouter = require("./Routes/preFoodRoutes");
 
 app = express();
 
@@ -15,5 +16,6 @@ app.use(bodyParser.json());
 
 app.use("/Foods/Users", userRouter);
 app.use("/Foods", foodRouter);
+app.use("/PreFoods", preFoodRouter);
 
 module.exports = app;

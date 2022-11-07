@@ -4,14 +4,9 @@ const mongoose = require("mongoose");
 const PrepareFoodSchema = new mongoose.Schema({
   Name: {
     type: String,
-    required: [true, "please enter your name !!"],
-    select: true,
   },
   PhoneNumber: {
     type: Number,
-    required: [true, "please enter your phone number !!"],
-    select: true,
-    minlength: 8,
   },
   Description: {
     type: String,
@@ -30,7 +25,10 @@ const PrepareFoodSchema = new mongoose.Schema({
   Done: {
     type: Boolean,
     default: false,
-    select: true,
+  },
+  Hide: {
+    type: Boolean,
+    default: false,
   },
 });
 

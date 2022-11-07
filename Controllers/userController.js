@@ -10,7 +10,7 @@ exports.getMe = (req, res, next) => {
 exports.findAllClients = async (req, res, next) => {
   try {
     // Test if there is clients
-    const doc = await User.find({ role: "client" });
+    const doc = await User.find({ Role: "client" });
     return res.status(200).json({
       status: "Success",
       result: doc.length,
@@ -30,7 +30,7 @@ exports.findAllClients = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
   try {
     // Test if there is an employee
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.idUser);
     if (user) {
       return res.status(200).json({
         status: "Success",
@@ -58,7 +58,7 @@ exports.updateProfile = async (req, res, next) => {
         new: true,
         runValidators: true,
       });
-      // Test if document was update Successsfuly
+      // Test if document was update Successfully
       if (doc) {
         return res.status(200).json({
           status: "Success",
@@ -85,11 +85,12 @@ exports.updateProfile = async (req, res, next) => {
 exports.deleteOneUser = async (req, res, next) => {
   try {
     // Find user and delete it
-    const doc = await User.findByIdAndDelete(req.params.id);
-    if (!doc)
+    const doc = await User.findByIdAndDelete(req.params.idUser);
+    if (!doc) {
       return res.status(400).json({
         status: "No user with that id !!",
       });
+    }
     return res.status(200).json({
       status: "Success",
       data: null,

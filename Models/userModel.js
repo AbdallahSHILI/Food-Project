@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const SALT_WORK_FACTOR = 10;
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -60,7 +61,6 @@ const userSchema = new mongoose.Schema({
     default: Date.now(),
   },
 });
-
 //2) validate password
 userSchema.methods.validatePassword = async function (
   condidatePassword,
@@ -68,5 +68,16 @@ userSchema.methods.validatePassword = async function (
 ) {
   return await bcrypt.compare(condidatePassword, userPassword);
 };
+userSchema.pre("save", async function save(next) {
+  if (!this.isModified("Password")) return next();
+  try {
+    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+    this.Password = await bcrypt.hash(this.Password, salt);
+    this.ConfirmPassword = undefined;
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+});
 
 module.exports = mongoose.models.User || mongoose.model("User", userSchema);
